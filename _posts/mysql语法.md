@@ -65,14 +65,29 @@ SELECT `first_name` AS 姓名 FROM `employees`;
 SELECT `first_name` 姓名 FROM `employees`;
 ```
 
-**去重**
+**去重**DISTINCT
 
 ```sql
 示例：查询员工中涉及的所有部门种类
 SELECT DISTINCT`job_id` FROM `employees`;
 ```
 
+ifnull
 
+```sql
+#语法IFNULL(字段名,设置的值)
+#将查询薪水为null的改为0
+SELECT IFNULL(`commission_pct`,0),`commission_pct` FROM `employees`
+```
+
+isnull
+
+```sql
+#判断某字段的值是否为null，为null返回1，否则返回0
+SELECT ISNULL(commission_pct),commission_pct FROM `employees`
+```
+
+------
 
 ## 条件查询
 
@@ -109,7 +124,7 @@ SELECT * FROM `employees` WHERE NOT(salary>5000 AND salary<10000);
 
 **模糊查询：**
 
-内容：like ，between， and， in， is not null
+内容：**like** ，**between**  **and**， **in**， **is not null**
 
 **like使用**
 
@@ -149,11 +164,52 @@ SELECT * FROM `employees` WHERE job_id IN('AD_VP','IT_PROG');
 **is null/is not null使用**
 
 ```sql
- 查询奖金为NULL的员工信息
+ #查询奖金为NULL的员工信息
  SELECT * FROM `employees` WHERE `commission_pct` IS NULL
  
  查询奖金不为NULL的员工信息
  SELECT * FROM `employees` WHERE `commission_pct` IS NOT NULL
  
+```
+
+------
+
+## 排序查询
+
+**语法格式**
+
+```sql
+语法：
+	select 查询列表
+	from 表
+	【where 筛选条件】
+	order by 排序列表【asc|desc】	
+#asc升序 desc降序
+默认是升序
+```
+
+**按年薪的高低显示员工的信息和年薪【按别名查询】**
+
+```sql
+SELECT *,salary*12*(1+IFNULL(`commission_pct`,0)) 年薪
+FROM `employees` 
+ORDER BY 年薪 DESC;
+```
+
+**按姓名的长度显示员工的姓名和工资【按函数排序】**
+
+```sql
+SELECT LENGTH(`last_name`) 字段长度,`last_name`,`salary` 
+FROM `employees` 
+ORDER BY 字段长度 ASC;
+```
+
+**查询员工信息，要求先按工资升序，员工编号降序【按多个字段排序】**
+
+```sql
+SELECT *
+FROM employees
+ORDER BY `salary` ASC,`manager_id` DESC;
+#先按asc排完序，如过salary字段值相同在按照manager_id降序
 ```
 

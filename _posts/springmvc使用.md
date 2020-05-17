@@ -96,6 +96,10 @@ public class Hello {
 }
 ```
 
+**DispatcherServlet细节：**
+
+<img src="/04.png" style="zoom:80%;" />
+
 ## 2.请求参数：
 
 ### 1.@RequuestMapping的用法
@@ -104,6 +108,7 @@ public class Hello {
 
 ```java
 @RequestMapping("/six")
+//示例http://localhost:8888/mvc_test02/six/six1	访问才有效
 @Controller
 public class Test01 {
     @RequestMapping("/six1")
@@ -114,7 +119,7 @@ public class Test01 {
 }
 ```
 
-index.jsp改成如下:
+**index.jsp改成如下:**
 
 ```
 <html>
@@ -612,6 +617,27 @@ public String test07(){
 <mvc:view-controller path="/hello09" view-name="ok"></mvc:view-controller>
 <!--开启MVC注解驱动模式，开启mvc高级模式，解决其他注解不好使-->
 <mvc:annotation-driven></mvc:annotation-driven>
+```
+
+#### **当引入jquery时，使用页面发现jquery404**
+
+**引入下面配置：**
+
+```xml
+<mvc:default-servlet-handler></mvc:default-servlet-handler>
+<mvc:annotation-driven></mvc:annotation-driven>
+```
+
+#### 日期格式化
+
+在需要添加日期格式化的javabean对象上添加@DateTimeFormat(日期格式)注解
+
+**spring.xml配置如下**
+
+```xml
+<bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        
+</bean>
 ```
 
 
